@@ -33,10 +33,12 @@ table {
   transition: opacity .6s;
 }
 .content {
-  color: white;
+  color: #F0F0F0;
 }
 .gridster .gs-w {
-  background: #61A9CF;
+  background: #2A2C39;
+	border: #F0F0F0;
+  border-style: solid;
   cursor: pointer;
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
@@ -54,10 +56,9 @@ table {
 .gridster .preview-holder {
   border: none !important;
   border-radius: 0 !important;
-  background: red !important;
+  background: #FF4056 !important;
 }
 .gridster ul {
-  background-color: #EFEFEF;
 }
 .gridster li {
   font-size: 1em;

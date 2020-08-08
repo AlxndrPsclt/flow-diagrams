@@ -1,0 +1,26 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:300);
+
+body{
+  background-color: #2A2C39;
+}
+
+.input{
+  margin: 0 auto;
+  font-family: Lato;
+  font-size: 1.4em;
+}
+  
+.input input{    
+	width: -webkit-fill-available;
+	height: 80px;  
+	font-family: Lato;
+	font-size: 1em;    
+	background-color: transparent;
+	border: none;
+	//border-top: 3px solid #2A2C39;    
+	border-bottom: 3px solid #FF4056;
+	outline: none;
+	color: #FF4056;
+	padding-left: 10px;  
+}
+
