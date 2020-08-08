@@ -16,11 +16,20 @@ $(document).ready(function(){
 		shift_widgets_up: false,
 		shift_larger_widgets_down: false,
 		collision: {
-			wait_for_mouseup: true
+			wait_for_mouseup: true,
 		},
 		resize: {
-			enabled: true
-		}
+			enabled: true,
+			stop: function (e, ui, $widget) {
+				connectAll();
+			},
+
+		},
+		draggable: {
+			stop: function (e, ui, $widget) {
+				connectAll();
+			},
+		},
 	}).data('gridster');
 
 
