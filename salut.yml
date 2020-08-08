@@ -1,0 +1,17 @@
+note:
+  id: 001
+  titre: "Salut les gars"
+  contenu: "dsffefvsdfvsdfvsdfvsfvsvsdfvsb"
+  auteur: Alex
+  lien: 002
+  position: 1,2
+  taille: 5
+
+
+note:
+  id: 002
+  titre: "dfvdsfalut les gars"
+  contenu: "dsffefvsdfvsdfvsdfvsfvsvsdfvsb"
+  auteur: Alex
+  position: 5,2
+  taille: 5

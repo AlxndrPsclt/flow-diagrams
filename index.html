@@ -3,27 +3,45 @@
   <head>
     <title>Demo &raquo; sticky position widgets &raquo; gridster.js</title>
     <link rel="stylesheet" type="text/css" href="static/css/demo.css">
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
     <link rel="stylesheet" type="text/css" href="static/css/gridster/jquery.gridster.css">
     <link rel="stylesheet" type="text/css" href="static/css/main.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="static/js/gridster/jquery.gridster.min.js" type="text/javascript" charset="utf-8"></script>
     <script src="static/js/main.js" type="text/javascript" charset="utf-8"></script>
+		<script src="static/js/svgDraw.js"></script>
   </head>
 
 <body>
 
-  <div class="gridster">
+<div id="svgContainer" style="margin: 50px 50px;">
+
+	<svg id="svg1" width="1000" height="1000" >
+		<path
+			id="path1"
+			d="M0 0"
+			stroke="#EEE" 
+			fill="none" 
+			stroke-width="12px";/>
+	</svg>
+</div>
+
+  <div class="gridster" id="outer">
     <ul>
-        <li data-row="1" data-col="2" data-sizex="2" data-sizey="1" class="task-card">
-					<div class="input">    
-						<input type="text" id="input-a"/>  
+        <li data-row="1" data-col="2" data-sizex="2" data-sizey="1" class="task-card" id="card01">
+					<div class="task-cell" id="task-title">    
+						<input type="text"/>  
+					</div>
+					<div class="task-cell" id="task-content">    
+						<textarea id="content" name="task-content">coucou man</textarea>
 					</div>
         </li>
 
-        <li data-row="3" data-col="2" data-sizex="1" data-sizey="1" class="task-card">0</li>
+        <li data-row="3" data-col="2" data-sizex="1" data-sizey="1" class="task-card" id="card02">0</li>
 
       </ul>
   </div>
+
 
 
 </body>

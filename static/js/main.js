@@ -1,6 +1,13 @@
+var gridster;
+
+function connectAll() {
+    // connect all the paths you want!
+    console.log("Connecting...");
+    connectElements($("#svg1"), $("#path1"), $("#card01"),  $("#card02"));
+}
+
 $(document).ready(function(){
 
-	var gridster;
 	console.log("Coucou");
 
 	gridster = $(".gridster ul").gridster({
@@ -17,8 +24,8 @@ $(document).ready(function(){
 	}).data('gridster');
 
 
-	$('.js-resize-random').on('click', function () {
-		gridster.resize_widget(gridster.$widgets.eq(getRandomInt(0, 9)),
-			getRandomInt(1, 4), getRandomInt(1, 4))
-	});
+	$("#svg1").attr("height", "0");
+	$("#svg1").attr("width", "0");
+	connectAll();
+
 })

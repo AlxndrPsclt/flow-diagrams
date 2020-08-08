@@ -4,7 +4,8 @@
 body {
   background: #26941f;
   font-size: 16px;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
+	font-family: 'Catamaran', sans-serif;
+	font-family: 'Jost', sans-serif;
   color: #ffffff;
   margin: 0;
 }
@@ -33,11 +34,11 @@ table {
   transition: opacity .6s;
 }
 .content {
-  color: #F0F0F0;
+  color: #B0B0B0;
 }
 .gridster .gs-w {
   background: #2A2C39;
-	border: #F0F0F0;
+	border: #B0B0B0;
   border-style: solid;
   cursor: pointer;
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
