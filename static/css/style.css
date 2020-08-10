@@ -4,10 +4,8 @@ body{ background-color:gray; }
 	z-index: -10;
 	position:absolute;
 	background-color: none;
-	opacity: 0.5;
 }
 
-div{ opacity: 0.6; }
 
 
 #outer{
