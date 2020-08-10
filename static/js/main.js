@@ -17,7 +17,7 @@ $(document).ready(function(){
 
 	gridster = $(".gridster ul").gridster({
 		widget_base_dimensions: [200, 200],
-		widget_margins: [0, 0],
+		widget_margins: [5, 5],
 		min_cols: 50,
 		min_rows: 50,
 		shift_widgets_up: false,
@@ -66,8 +66,8 @@ $(document).ready(function(){
 			// This is a click outside.
 			console.log("Clicked outside!");
 			console.log(e);
-			col=Math.floor(e.pageX / 200)+1;
-			row=Math.floor(e.pageY / 200)+1;
+			col=Math.floor(e.pageX / 205)+1;
+			row=Math.floor(e.pageY / 205)+1;
 			console.log(e.pageX);
 			console.log(col);
 			console.log(e.pageY);
