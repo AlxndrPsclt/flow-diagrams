@@ -1,9 +1,50 @@
 var gridster;
 
+var json_grid = ' [ {"col": 2, "row": 1, "size_x": 2, "size_y": 1}, {"col": 2, "row": 3, "size_x": 1, "size_y": 1} ] ';
+
 function connectAll() {
     // connect all the paths you want!
     console.log("Connecting...");
     connectElements($("#svg1"), $("#path1"), $("#card01"),  $("#card02"));
+}
+
+function saveGridToLocalstorage(name, serialized_grid) {
+	console.log("Saving grid...");
+	localStorage.setItem(name, serialized_grid);
+	console.log("Saved.");
+	console.log(serialized_grid);
+}
+
+function saveGrid(name) {
+	console.log("Exporting grid...");
+	const serialized_grid = JSON.stringify(gridster.serialize());
+	console.log(serialized_grid);
+	saveGridToLocalstorage(name, serialized_grid);
+}
+
+function add_one_widget(elt) {
+	gridster.add_widget('<li class="task-card" id="card03">YEAAAH</li>"', elt.size_x, elt.size_y, elt.col, elt.row);
+}
+
+function loadGridFromSerialized(serialized) {
+	var jsonGrid = JSON.parse(serialized);
+	console.log("Importing previously saved grid...")
+	console.log(jsonGrid)
+	gridster.remove_all_widgets();
+	jsonGrid.forEach(element => add_one_widget(element));
+}
+
+function loadGridFromLocalStorage(name) {
+	console.log("fetchng from local storage...");
+	serialized = localStorage.getItem(name);
+	console.log(serialized);
+	loadGridFromSerialized(serialized);
+		// event handler
+}
+
+function loadGrid(name) {
+	console.log("Loading widgets from previously saved");
+	loadGridFromLocalStorage(name);
 }
 
 $(document).ready(function(){
@@ -48,6 +89,8 @@ $(document).ready(function(){
 	document.addEventListener("click", (e) => {
 		if (event.ctrlKey) {
 		  console.log("The CTRL key was pressed!");
+
+			//TODO: simplify this function by using empty_cell instead of dom tests?? Maybe a good idea
 
 			const flyoutElements = document.getElementsByClassName("task-card");
 			const flyoutArray = Array.from(flyoutElements);
@@ -108,9 +151,11 @@ $(document).ready(function(){
 		  }
 	}
 
-	const input = document.querySelector('#content')
+	const input = document.querySelector('#content');
 
-	input.addEventListener('keyup', handleKeyUp)
-	input.addEventListener('blur', handleBlur)
+	input.addEventListener('keyup', handleKeyUp);
+	input.addEventListener('blur', handleBlur);
+	
+  //loadGrid(json_grid);
 
 })

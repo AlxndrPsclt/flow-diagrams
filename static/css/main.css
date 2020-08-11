@@ -85,6 +85,23 @@ textarea::-webkit-scrollbar-thumb {
   border-radius: 10px;
 }
 
+#save-button {
+	position: fixed;
+	bottom: 1em;
+	right: 1em;
+	width: 8em;
+	height: 3em;
+	z-index: 50;
+}
+#load-button {
+	position: fixed;
+	bottom: 1em;
+	right: 11em;
+	width: 8em;
+	height: 3em;
+	z-index: 50;
+}
+
 body::-webkit-scrollbar {
   width: 5px;
   height: 5px;

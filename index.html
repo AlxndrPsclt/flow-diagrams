@@ -15,21 +15,28 @@
 
 <body>
 
+  <div id="save-div">
+    <button id="save-button" onclick="saveGrid('basic-grid')"></button>
+  </div>
+  <div id="load-div">
+    <button id="load-button" onclick="loadGrid('basic-grid')"></button>
+  </div>
+
 <div id="svgContainer" style="margin: 50px 50px;">
 
 	<svg id="svg1" width="1000" height="1000" >
 		<path
 			id="path1"
 			d="M0 0"
-			stroke="#EEE" 
+			stroke="#B0B0B0" 
 			fill="none" 
-			stroke-width="4px";/>
+			stroke-width="3px";/>
 	</svg>
 </div>
 
   <div class="gridster" id="outer">
     <ul>
-        <li data-row="1" data-col="2" data-sizex="2" data-sizey="1" class="task-card" id="card01">
+        <li data-row="1" data-col="5" data-sizex="2" data-sizey="1" class="task-card" id="card01">
 					<div class="task-cell" id="task-title">    
 						<input type="text"/>  
 					</div>
@@ -38,7 +45,7 @@
 					</div>
         </li>
 
-        <li data-row="3" data-col="2" data-sizex="1" data-sizey="1" class="task-card" id="card02">0</li>
+        <li data-row="3" data-col="1" data-sizex="1" data-sizey="1" class="task-card" id="card02">0</li>
 
       </ul>
   </div>
