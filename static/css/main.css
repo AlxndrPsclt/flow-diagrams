@@ -25,7 +25,7 @@ body{
 	background-color: transparent;
 	border: none;
 	//border-top: 3px solid #2A2C39;    
-	border-bottom: 3px solid #FF405655;
+	//border-bottom: 3px solid #FF405655;
 	outline: none;
 	color: #FF4056;
 	padding: 0 0;
@@ -48,7 +48,7 @@ body{
 	color: #F0F0F0;
 	border: none;
 	//border-top: 3px solid #2A2C39;    
-	border-bottom: 3px solid #FF405655;
+	//border-bottom: 3px solid #FF405655;
 	outline: none;
 	padding: 0 0;
 	//margin: 2px 4%;

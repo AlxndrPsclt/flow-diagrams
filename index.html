@@ -9,48 +9,37 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="static/js/gridster/jquery.gridster.js" type="text/javascript" charset="utf-8"></script>
     <script src="static/js/main.js" type="text/javascript" charset="utf-8"></script>
-		<script src="static/js/svgDraw.js"></script>
+    <script src="static/js/svgDraw.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fitty/2.3.2/fitty.min.js"></script>
   </head>
 
-<body>
+  <body>
 
-  <div id="save-div">
-    <button id="save-button" onclick="saveGrid('basic-grid')">SAVE</button>
-  </div>
-  <div id="load-div">
-    <button id="load-button" onclick="loadGrid('basic-grid')">LOAD</button>
-  </div>
+    <div id="save-div">
+      <button id="save-button" onclick="saveGrid('basic-grid')">SAVE</button>
+    </div>
+    <div id="load-div">
+      <button id="load-button" onclick="loadGrid('basic-grid')">LOAD</button>
+    </div>
 
-<div id="svgContainer" style="margin: 50px 50px;">
+    <div id="svgContainer" style="margin: 50px 50px;">
 
-	<svg id="svg1" width="1000" height="1000" >
-		<path
-			id="path1"
-			d="M0 0"
-			stroke="#B0B0B0" 
-			fill="none" 
-			stroke-width="3px";/>
-	</svg>
-</div>
+      <svg id="svg1" width="1000" height="1000" >
+        <path
+          id="path1"
+          d="M0 0"
+          stroke="#B0B0B0"
+          fill="none"
+          stroke-width="3px";/>
+      </svg>
+    </div>
 
-  <div class="gridster" id="outer">
-    <ul>
-        <li data-row="1" data-col="5" data-sizex="2" data-sizey="1" class="task-card" id="card01">
-					<div class="task-cell" id="task-title">    
-						<input type="text"/>  
-					</div>
-					<div class="task-cell" id="task-content">    
-						<textarea id="content" name="task-content" placeholder="..." ></textarea>
-					</div>
-        </li>
-
-        <li data-row="3" data-col="1" data-sizex="1" data-sizey="1" class="task-card" id="card02">0</li>
-
+    <div class="gridster" id="outer">
+      <ul>
       </ul>
-  </div>
+    </div>
 
 
 
-</body>
+  </body>
 </html>
