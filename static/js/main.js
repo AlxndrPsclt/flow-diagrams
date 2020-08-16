@@ -3,21 +3,41 @@ var study_element;
 
 const json_grid = ' [ {"col": 2, "row": 1, "size_x": 2, "size_y": 1}, {"col": 2, "row": 3, "size_x": 1, "size_y": 1} ] ';
 
+var selected = new Set();
+var links = new Array();
+
 
 function card_prototype(card_data) {
 
   const card_template = `
 <li class="task-card" id="${card_data.id}">
   <div class="task-cell task-title" id="task-title-${card_data.id}">
-    <input type="text"/>
+    <input type="text" value="${card_data.title}"/>
   </div>
   <div class="task-cell task-content" id="task-content-${card_data.id}">
-    <textarea id="content-${card_data.id}" name="task-content" placeholder="..." ></textarea>
+    <textarea id="content-${card_data.id}" name="task-content" placeholder="...">${card_data.content}</textarea>
   </div>
 </li>
 `
   return card_template;
 }
+
+function link_prototype(link_data) {
+
+  const link_template = `
+<svg id="svg${link_data.id}" width="1000" height="1000" >
+  <path
+    id="path${link_data.id}"
+    d="M0 0"
+    stroke="#B0B0B0"
+    fill="none"
+    stroke-width="3px";/>
+</svg>
+`
+  return link_template;
+}
+
+
 
 
 function connectAll() {
@@ -143,6 +163,18 @@ $(document).ready(function(){
     },
   }).data('gridster');
 
+
+
+
+
+  $(document).keypress(function(e){
+
+    if ((event.keyCode == 10 || event.keyCode == 13) && event.ctrlKey) {
+      console.log("Enter has been pressed! Connect");
+    }
+
+  });
+
   //gridster.add_widget('<li class="task-card" id="card03">YEAAAH</li>"', 1, 1, 3, 4)'"')
 
   document.addEventListener("click", (e) => {
@@ -155,10 +187,22 @@ $(document).ready(function(){
       const flyoutArray = Array.from(flyoutElements);
       let targetElement = e.target; // clicked element
 
+
       do {
         if (flyoutArray.includes(targetElement)) {
-          // This is a click inside. Do nothing, just return.
-          console.log("Clicked inside!");
+          // This is a click inside. Select element.
+          console.log(targetElement.id);
+          element = $("#"+targetElement.id);
+
+          if (element.hasClass("selected")) {
+            selected.delete(targetElement.id);
+            element.removeClass("selected");
+          }
+          else {
+            selected.add(targetElement.id);
+            element.addClass("selected");
+          }
+          console.log("Ctrl-clicked inside!");
           return;
         }
         // Go up the DOM
@@ -191,6 +235,8 @@ $(document).ready(function(){
       console.log("The CTRL key was NOT pressed!");
 
     }
+
+
   });
 
   $("#svg1").attr("height", "0");

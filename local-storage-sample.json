@@ -1,0 +1,9 @@
+[
+	{"col":5,"row":1,"size_x":2,"size_y":1,"id":"card01","link":"card03"},
+	{"col":2,"row":3,"size_x":1,"size_y":1,"id":"card02"},
+	{"col":5,"row":3,"size_x":1,"size_y":1,"id":"card03"},
+	{"col":6,"row":5,"size_x":1,"size_y":1,"id":"card04"},
+	{"col":7,"row":4,"size_x":1,"size_y":1,"id":"card05"},
+	{"col":8,"row":2,"size_x":1,"size_y":1,"id":"card06"},
+	{"col":3,"row":4,"size_x":1,"size_y":1,"id":"card07"}
+]

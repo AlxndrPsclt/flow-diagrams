@@ -955,12 +955,20 @@
 					}
 				},
 				serialize_params: function($w, wgd) {
+          console.log("Creating Serialize params...")
+          console.log($w);
+          var title = $w[0].children[0].firstElementChild.value;
+          console.log(title);
+          var content = $w[0].children[1].firstElementChild.value;
+          console.log(content);
 					return {
 						col: wgd.col,
 						row: wgd.row,
 						size_x: wgd.size_x,
 						size_y: wgd.size_y,
-						id: $w.attr("id")
+						id: $w.attr("id"),
+						title: title,
+						content: content
 					};
 				},
 				collision: {
