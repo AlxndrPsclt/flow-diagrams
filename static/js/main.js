@@ -145,10 +145,6 @@ $(document).ready(function(){
 
   //gridster.add_widget('<li class="task-card" id="card03">YEAAAH</li>"', 1, 1, 3, 4)'"')
 
-  $("#svg1").attr("height", "0");
-  $("#svg1").attr("width", "0");
-  connectAll();
-
   document.addEventListener("click", (e) => {
     if (event.ctrlKey) {
       console.log("The CTRL key was pressed!");
@@ -186,12 +182,20 @@ $(document).ready(function(){
 
       gridster.add_widget(card_prototype({"id": "card"+new_element_id_str}), 1, 1, col, row);
 
+      const input = document.querySelector('#content-card'+new_element_id_str);
+
+      input.addEventListener('keyup', handleKeyUp);
+      input.addEventListener('blur', handleBlur);
+
     } else {
       console.log("The CTRL key was NOT pressed!");
 
     }
-  }
-  );
+  });
+
+  $("#svg1").attr("height", "0");
+  $("#svg1").attr("width", "0");
+  connectAll();
 
 
   //  const input = document.querySelector('#content');
@@ -200,7 +204,7 @@ $(document).ready(function(){
   //  input.addEventListener('blur', handleBlur);
   //loadGrid(json_grid);
 
-})
+});
 
 
 //TODO: Add yaml save support
