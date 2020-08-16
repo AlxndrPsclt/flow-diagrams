@@ -959,7 +959,8 @@
 						col: wgd.col,
 						row: wgd.row,
 						size_x: wgd.size_x,
-						size_y: wgd.size_y
+						size_y: wgd.size_y,
+						id: $w.attr("id")
 					};
 				},
 				collision: {
@@ -1998,9 +1999,13 @@
 	 */
 	fn.serialize = function ($widgets) {
 		$widgets || ($widgets = this.$widgets);
+		console.log("In serialize function");
+		console.log($widgets);
 		var result = [];
 		$widgets.each($.proxy(function (i, widget) {
 			var $w = $(widget);
+			console.log($w);
+			study_element=$w;
 			if (typeof($w.coords().grid) !== 'undefined') {
 				result.push(this.options.serialize_params($w, $w.coords().grid));
 			}

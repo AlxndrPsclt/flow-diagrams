@@ -1,6 +1,24 @@
 var gridster;
+var study_element;
 
-var json_grid = ' [ {"col": 2, "row": 1, "size_x": 2, "size_y": 1}, {"col": 2, "row": 3, "size_x": 1, "size_y": 1} ] ';
+const json_grid = ' [ {"col": 2, "row": 1, "size_x": 2, "size_y": 1}, {"col": 2, "row": 3, "size_x": 1, "size_y": 1} ] ';
+
+
+function card_prototype(card_data) {
+	
+	const card_template = `
+<li class="task-card" id="${card_data.id}">
+	<div class="task-cell task-title" id="task-title-${card_data.id}">    
+		<input type="text"/>  
+	</div>
+	<div class="task-cell task-content" id="task-content-${card_data.id}">    
+		<textarea id="content-${card_data.id}" name="task-content" placeholder="..." ></textarea>
+	</div>
+</li>
+`
+	return card_template;
+}
+
 
 function connectAll() {
     // connect all the paths you want!
@@ -11,7 +29,7 @@ function connectAll() {
 function saveGridToLocalstorage(name, serialized_grid) {
 	console.log("Saving grid...");
 	localStorage.setItem(name, serialized_grid);
-	console.log("Saved.");
+	console.log("Not Saved.");
 	console.log(serialized_grid);
 }
 
@@ -23,7 +41,7 @@ function saveGrid(name) {
 }
 
 function add_one_widget(elt) {
-	gridster.add_widget('<li class="task-card" id="card03">YEAAAH</li>"', elt.size_x, elt.size_y, elt.col, elt.row);
+	gridster.add_widget(card_prototype(elt), elt.size_x, elt.size_y, elt.col, elt.row);
 }
 
 function loadGridFromSerialized(serialized) {
@@ -109,13 +127,19 @@ $(document).ready(function(){
 			// This is a click outside.
 			console.log("Clicked outside!");
 			console.log(e);
-			col=Math.floor(e.pageX / 205)+1;
+			col=Math.floor(e.pageX / 205)+1;    //TODO: take the margin of the container intoo account
 			row=Math.floor(e.pageY / 205)+1;
 			console.log(e.pageX);
 			console.log(col);
 			console.log(e.pageY);
 			console.log(row);
-			gridster.add_widget('<li class="task-card" id="card03">YEAAAH</li>"', 1, 1, col, row);
+			last_element_name= gridster.$widgets[gridster.$widgets.length-1].id;
+			last_element_id_str=  last_element_name.substring(last_element_name.length - 2, last_element_name.length);
+			new_element_id_int = parseInt(last_element_id_str) + 1;
+			new_element_id_str=new_element_id_int.toString().padStart(2,"0")
+			
+			
+			gridster.add_widget(card_prototype({"id": "card"+new_element_id_str}), 1, 1, col, row);
 
 		} else {
 		  console.log("The CTRL key was NOT pressed!");
@@ -159,3 +183,8 @@ $(document).ready(function(){
   //loadGrid(json_grid);
 
 })
+
+
+//TODO: Add yaml save support
+//TODO" Add decent font resize on task-card resize
+//TODO" Add decent font resize on window resize or zoom level change

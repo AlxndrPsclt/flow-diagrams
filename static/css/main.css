@@ -59,12 +59,12 @@ body{
 	border-bottom: 3px solid #FF4056;
 }
 
-#task-title {
+.task-title {
   grid-column: 1 / 7;
 	grid-row: 1;
 }
 
-#task-content {
+.task-content {
   grid-column: 1 / 10;
 	grid-row: 2 / 9;
 	margin-left: 4%;
