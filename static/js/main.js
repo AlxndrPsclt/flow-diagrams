@@ -1,16 +1,51 @@
 var gridster;
 var study_element;
 
-const json_grid = ' [ {"col": 2, "row": 1, "size_x": 2, "size_y": 1}, {"col": 2, "row": 3, "size_x": 1, "size_y": 1} ] ';
-
 var selected = new Set();
-var links = new Array();
+var linksCollection = [ "1-2" ];
+
+class linksCollection {
+  constructor(initalCollection) {
+      this.links = [];
+      this.firstFreeIndex = 0;
+    }
+  
+  add(id) {
+    if (this.links.findIndex(id) > -1) {
+      console.log("There is already a link for this pair");
+    }
+    else {
+      console.log("Adding a new link to reference");
+      this.links[this.firstFreeIndex] = id;
+      const justAssignedIndex = this.firstFreeIndex;
+      do {
+        this.firstFreeIndex += 1;
+      } while (this.link[this.firstFreeIndex]);
+    }
+    return justAssignedIndex;
+  }
+
+  del(id) {
+    const linkIndex = this.links.findIndex(id)
+    if ( linkIndex > -1) {
+      console.log("There is indeed a link for this pair, let's remove it");
+      this.links[linkIndex] = null;
+      this.firstFreeIndex = Math.min(this.firstFreeIndex, linkIndex);
+    }
+    else {
+      console.log("No such link!");
+    }
+    return linkIndex;
+  }
+
+}
+
 
 
 function card_prototype(card_data) {
 
   const card_template = `
-<li class="task-card" id="${card_data.id}">
+<li class="task-card" id="${card_data.id}" link="${card_data.link}">
   <div class="task-cell task-title" id="task-title-${card_data.id}">
     <input type="text" value="${card_data.title}"/>
   </div>
@@ -25,25 +60,130 @@ function card_prototype(card_data) {
 function link_prototype(link_data) {
 
   const link_template = `
-<svg id="svg${link_data.id}" width="1000" height="1000" >
   <path
-    id="path${link_data.id}"
-    d="M0 0"
+    id="${link_data.id}"
+    d="m0 0"
     stroke="#B0B0B0"
     fill="none"
     stroke-width="3px";/>
-</svg>
 `
   return link_template;
 }
 
+function referenceLink(item, index) {
+  console.log(item);
+  if (item.link) {
+    console.log("This item needs a reference link");
+    const linkId = item.id+"-"+item.link;
 
+    if (linksCollection.filter(elt => elt.id == linkId).length) {
+      console.log("There is already a link reference present.");
+    }
+    else {
+      console.log("Adding an svg reference link right now.");
+      i = 0;
+      do {
+
+      } while (i = linksCollection.svgs);
+      linksCollection.push({"id": linkId, "svgId": 0});
+    }
+
+    console.log(linkId);
+    console.log(item.id);
+    console.log(item.link);
+    //$("#svg1").attr("height", "0");
+    //$("#svg1").attr("width", "0");
+    //connectElements($("#svg1"), $("#"+linkId), $("#"+item.id),  $("#"+item.link));
+  }
+  else {
+    console.log("No link this time");
+  }
+}
+
+function createLinkSvg(item, index) {
+  console.log(item);
+  if (item.link) {
+    console.log("This item needs a link to be created");
+    var svgField = $('#svg1');
+    const linkId = item.id+item.link;
+    const elementExists = document.getElementById(linkId);
+    if (elementExists) {
+      console.log("There is already a link present.");
+    }
+    else {
+      console.log("Adding an svg link right now.");
+      svgField.append(link_prototype({"id": linkId}));
+    }
+    console.log(linkId);
+    console.log(item.id);
+    console.log(item.link);
+    //$("#svg1").attr("height", "0");
+    //$("#svg1").attr("width", "0");
+    //connectElements($("#svg1"), $("#"+linkId), $("#"+item.id),  $("#"+item.link));
+  }
+  else {
+    console.log("No link this time");
+  }
+}
+
+function connectIfLink(item, index) {
+  console.log(item);
+  if (item.link) {
+    console.log("This item has a link");
+    const linkId = item.id+item.link;
+    console.log(linkId);
+    console.log(item.id);
+    console.log(item.link);
+    console.log($("#svg1"));
+    console.log($("#"+linkId));
+    console.log($("#"+item.id));
+    console.log($("#"+item.link));
+    const pathId = linksCollection[linkId];
+    connectElements($("#svg1"), $("#"+pathId), $("#"+item.id),  $("#"+item.link));
+  }
+  else {
+    console.log("No link this time");
+  }
+}
+
+function connectLink(item, index) {
+  console.log("In connecting link");
+  console.log(item);
+  if (item.link) {
+    console.log("This item has a link");
+    const linkId = item.id+item.link;
+    console.log(linkId);
+    console.log(item.id);
+    console.log(item.link);
+    console.log($("#svg1"));
+    console.log($("#"+linkId));
+    console.log($("#"+item.id));
+    console.log($("#"+item.link));
+    const pathId = linksCollection[linkId];
+    connectElements($("#svg1"), $("#"+pathId), $("#"+item.id),  $("#"+item.link));
+  }
+  else {
+    console.log("No link this time");
+  }
+}
 
 
 function connectAll() {
   // connect all the paths you want!
   console.log("Connecting...");
-  connectElements($("#svg1"), $("#path1"), $("#card01"),  $("#card02"));
+  var grid = gridster.serialize();
+  console.log(grid);
+  grid.forEach(connectIfLink);
+  //connectElements($("#svg1"), $("#pathcard01card02"), $("#card01"),  $("#card02"));
+}
+
+function createAll() {
+  // connect all the paths you want!
+  console.log("Creating all links...");
+  var grid = gridster.serialize();
+  console.log(grid);
+  grid.forEach(createLinkSvg);
+  //connectElements($("#svg1"), $("#path2"), $("#card02"),  $("#card05"));
 }
 
 function saveGridToLocalstorage(name, serialized_grid) {
@@ -67,6 +207,11 @@ function add_one_widget(elt) {
 
   input.addEventListener('keyup', handleKeyUp);
   input.addEventListener('blur', handleBlur);
+
+  if (elt.link) {
+    console.log("Handling some link...");
+    //$('#svg1').append(link_prototype({"id": "3"}));
+  }
 }
 
 function loadGridFromSerialized(serialized) {
@@ -75,6 +220,7 @@ function loadGridFromSerialized(serialized) {
   console.log(jsonGrid)
   gridster.remove_all_widgets();
   jsonGrid.forEach(element => add_one_widget(element));
+  jsonGrid.filter(elt =>  elt['link']).forEach(elt => displayLink);
 }
 
 function loadGridFromLocalStorage(name) {
@@ -88,6 +234,8 @@ function loadGridFromLocalStorage(name) {
 function loadGrid(name) {
   console.log("Loading widgets from previously saved");
   loadGridFromLocalStorage(name);
+  createAll();
+  setTimeout(connectAll, 1000);
 }
 
 
@@ -171,6 +319,16 @@ $(document).ready(function(){
 
     if ((event.keyCode == 10 || event.keyCode == 13) && event.ctrlKey) {
       console.log("Enter has been pressed! Connect");
+      console.log(selected);
+      if (selected.size == 2) {
+        console.log("There are two items in selection");
+        const elements_iterator = selected.values();
+        const first_element = elements_iterator.next().value;
+        const second_element = elements_iterator.next().value;
+        console.log(first_element);
+        console.log(second_element);
+        $("#"+first_element).attr("link", second_element);
+      }
     }
 
   });
@@ -241,7 +399,7 @@ $(document).ready(function(){
 
   $("#svg1").attr("height", "0");
   $("#svg1").attr("width", "0");
-  connectAll();
+  createAll();
 
 
   //  const input = document.querySelector('#content');

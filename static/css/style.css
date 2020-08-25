@@ -1,9 +1,8 @@
-body{ background-color:gray; }
 
 #svgContainer { 
 	z-index: -10;
 	position:absolute;
-	background-color: none;
+	background-color: #D0D00060;
 }
 
 
