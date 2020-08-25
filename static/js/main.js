@@ -2,27 +2,29 @@ var gridster;
 var study_element;
 
 var selected = new Set();
-var linksCollection = [ "1-2" ];
 
 class linksCollection {
-  constructor(initalCollection) {
+  constructor() {
       this.links = [];
       this.firstFreeIndex = 0;
     }
-  
-  add(id) {
-    if (this.links.findIndex(id) > -1) {
+
+  add(item) {
+    const linkId = item.id+"-"+item.link;
+    const linkIndex = this.links.findIndex(elt => elt.linkId == linkId);
+    if ( linkIndex > -1) {
       console.log("There is already a link for this pair");
+      var currentIndex = linkIndex;
     }
     else {
       console.log("Adding a new link to reference");
-      this.links[this.firstFreeIndex] = id;
-      const justAssignedIndex = this.firstFreeIndex;
+      var currentIndex = this.firstFreeIndex;
+      this.links[currentIndex] = {"linkId": linkId, "path": currentIndex, "startElt": item.id, "stopElt": item.link};
       do {
         this.firstFreeIndex += 1;
-      } while (this.link[this.firstFreeIndex]);
+      } while (this.links[this.firstFreeIndex]);
     }
-    return justAssignedIndex;
+    return currentIndex;
   }
 
   del(id) {
@@ -38,8 +40,15 @@ class linksCollection {
     return linkIndex;
   }
 
+  empty() {
+    this.links = [];
+    this.firstFreeIndex = 0;
+  }
+
 }
 
+
+var links = new linksCollection();
 
 
 function card_prototype(card_data) {
@@ -70,110 +79,29 @@ function link_prototype(link_data) {
   return link_template;
 }
 
-function referenceLink(item, index) {
+function addLink(item) {
+  console.log("Adding a new link.")
   console.log(item);
-  if (item.link) {
-    console.log("This item needs a reference link");
-    const linkId = item.id+"-"+item.link;
+  const pathToUse = links.add(item);
 
-    if (linksCollection.filter(elt => elt.id == linkId).length) {
-      console.log("There is already a link reference present.");
-    }
-    else {
-      console.log("Adding an svg reference link right now.");
-      i = 0;
-      do {
+  console.log(item.id);
+  console.log(item.link);
+  console.log(pathToUse);
 
-      } while (i = linksCollection.svgs);
-      linksCollection.push({"id": linkId, "svgId": 0});
-    }
-
-    console.log(linkId);
-    console.log(item.id);
-    console.log(item.link);
-    //$("#svg1").attr("height", "0");
-    //$("#svg1").attr("width", "0");
-    //connectElements($("#svg1"), $("#"+linkId), $("#"+item.id),  $("#"+item.link));
-  }
-  else {
-    console.log("No link this time");
+  if ( pathToUse > -1) {
+    connectElements($("#svg1"), $("#path"+pathToUse.toString().padStart(2,"0")), $("#"+item.id),  $("#"+item.link));
   }
 }
 
-function createLinkSvg(item, index) {
-  console.log(item);
-  if (item.link) {
-    console.log("This item needs a link to be created");
-    var svgField = $('#svg1');
-    const linkId = item.id+item.link;
-    const elementExists = document.getElementById(linkId);
-    if (elementExists) {
-      console.log("There is already a link present.");
-    }
-    else {
-      console.log("Adding an svg link right now.");
-      svgField.append(link_prototype({"id": linkId}));
-    }
-    console.log(linkId);
-    console.log(item.id);
-    console.log(item.link);
-    //$("#svg1").attr("height", "0");
-    //$("#svg1").attr("width", "0");
-    //connectElements($("#svg1"), $("#"+linkId), $("#"+item.id),  $("#"+item.link));
-  }
-  else {
-    console.log("No link this time");
-  }
+function connect(link) {
+  console.log("Connecting some link " + link.linkId);
+    connectElements($("#svg1"), $("#path"+link.path.toString().padStart(2,"0")), $("#"+link.startElt),  $("#"+link.stopElt));
 }
-
-function connectIfLink(item, index) {
-  console.log(item);
-  if (item.link) {
-    console.log("This item has a link");
-    const linkId = item.id+item.link;
-    console.log(linkId);
-    console.log(item.id);
-    console.log(item.link);
-    console.log($("#svg1"));
-    console.log($("#"+linkId));
-    console.log($("#"+item.id));
-    console.log($("#"+item.link));
-    const pathId = linksCollection[linkId];
-    connectElements($("#svg1"), $("#"+pathId), $("#"+item.id),  $("#"+item.link));
-  }
-  else {
-    console.log("No link this time");
-  }
-}
-
-function connectLink(item, index) {
-  console.log("In connecting link");
-  console.log(item);
-  if (item.link) {
-    console.log("This item has a link");
-    const linkId = item.id+item.link;
-    console.log(linkId);
-    console.log(item.id);
-    console.log(item.link);
-    console.log($("#svg1"));
-    console.log($("#"+linkId));
-    console.log($("#"+item.id));
-    console.log($("#"+item.link));
-    const pathId = linksCollection[linkId];
-    connectElements($("#svg1"), $("#"+pathId), $("#"+item.id),  $("#"+item.link));
-  }
-  else {
-    console.log("No link this time");
-  }
-}
-
 
 function connectAll() {
   // connect all the paths you want!
-  console.log("Connecting...");
-  var grid = gridster.serialize();
-  console.log(grid);
-  grid.forEach(connectIfLink);
+  console.log("(re)Connecting all...");
+  links.links.forEach(connect);
   //connectElements($("#svg1"), $("#pathcard01card02"), $("#card01"),  $("#card02"));
 }
 
@@ -208,10 +136,6 @@ function add_one_widget(elt) {
   input.addEventListener('keyup', handleKeyUp);
   input.addEventListener('blur', handleBlur);
 
-  if (elt.link) {
-    console.log("Handling some link...");
-    //$('#svg1').append(link_prototype({"id": "3"}));
-  }
 }
 
 function loadGridFromSerialized(serialized) {
@@ -219,8 +143,9 @@ function loadGridFromSerialized(serialized) {
   console.log("Importing previously saved grid...")
   console.log(jsonGrid)
   gridster.remove_all_widgets();
-  jsonGrid.forEach(element => add_one_widget(element));
-  jsonGrid.filter(elt =>  elt['link']).forEach(elt => displayLink);
+  links.empty();
+  jsonGrid.forEach(elt => add_one_widget(elt));
+  jsonGrid.filter(elt =>  elt.link).forEach(elt => addLink(elt));
 }
 
 function loadGridFromLocalStorage(name) {
@@ -234,8 +159,8 @@ function loadGridFromLocalStorage(name) {
 function loadGrid(name) {
   console.log("Loading widgets from previously saved");
   loadGridFromLocalStorage(name);
-  createAll();
-  setTimeout(connectAll, 1000);
+  //createAll();
+  //setTimeout(connectAll, 1000);
 }
 
 
@@ -399,7 +324,7 @@ $(document).ready(function(){
 
   $("#svg1").attr("height", "0");
   $("#svg1").attr("width", "0");
-  createAll();
+  //createAll();
 
 
   //  const input = document.querySelector('#content');
@@ -414,3 +339,4 @@ $(document).ready(function(){
 //TODO: Add yaml save support
 //TODO" Add decent font resize on task-card resize
 //TODO" Add decent font resize on window resize or zoom level change
+//TODO" Clean code
