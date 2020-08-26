@@ -9,34 +9,41 @@ class linksCollection {
       this.firstFreeIndex = 0;
     }
 
-  add(item) {
-    const linkId = item.id+"-"+item.link;
-    const linkIndex = this.links.findIndex(elt => elt.linkId == linkId);
-    if ( linkIndex > -1) {
-      console.log("There is already a link for this pair");
-      var currentIndex = linkIndex;
-    }
-    else {
-      console.log("Adding a new link to reference");
-      var currentIndex = this.firstFreeIndex;
-      this.links[currentIndex] = {"linkId": linkId, "path": currentIndex, "startElt": item.id, "stopElt": item.link};
-      do {
-        this.firstFreeIndex += 1;
-      } while (this.links[this.firstFreeIndex]);
-    }
+  add(link) {
+    console.log("Adding a new link to reference "+link.linkId);
+    var currentIndex = this.firstFreeIndex;
+    this.links[currentIndex] = {"linkId": link.linkId, "path": currentIndex, "startElt": link.id, "stopElt": link.link};
+    do {
+      this.firstFreeIndex += 1;
+    } while (this.links[this.firstFreeIndex]);
     return currentIndex;
   }
 
-  del(id) {
-    const linkIndex = this.links.findIndex(id)
-    if ( linkIndex > -1) {
-      console.log("There is indeed a link for this pair, let's remove it");
+  del(linkIndex) {
       this.links[linkIndex] = null;
       this.firstFreeIndex = Math.min(this.firstFreeIndex, linkIndex);
+    return linkIndex;
+  }
+
+  toggle(link) {
+    const linkIndex = this.links.findIndex(elt => elt.linkId == link.linkId);
+
+    if ( linkIndex > -1) {
+      console.log("There is already a link for this pair; will delete it");
+      this.del(linkIndex);
     }
+
     else {
-      console.log("No such link!");
+      console.log("Adding a new link to reference");
+      this.add(link);
     }
+    const addedNewLink = (linkIndex == -1);
+    return addedNewLink;
+  }
+
+
+  has(linkId) {
+    const linkIndex = this.links.findIndex(elt => elt.linkId == linkId);
     return linkIndex;
   }
 
@@ -67,16 +74,38 @@ function card_prototype(card_data) {
 }
 
 
-function addLink(item) {
+function addLink(link) {
   console.log("Adding a new link.")
-  console.log(item);
-  $("#"+item.id).attr("link", item.link);
-  links.add(item);
+  console.log(link);
+  Object.assign(link, { "linkId": link.id+"-"+link.link});
+  $("#"+link.id).attr("link", link.link);
+  links.add(link);
+}
+
+function deleteLink(item, linkId) {
+  console.log("Deleting a link.")
+  console.log(linkId);
+
+  $("#"+item.id).attr("link", "");
+
+  links.del(item);
+}
+
+function toggleLink(link) {
+  console.log("Toggling a link.")
+  console.log(link);
+  link["linkId"] = link.id+"-"+link.link;
+  const addedNewLink = links.toggle(link);
+  if (addedNewLink) {
+    $("#"+link.id).attr("link", link.link);
+  } else {
+    $("#"+link.id).attr("link", "");
+  }
 }
 
 function connect(link) {
   console.log("Connecting some link " + link.linkId);
-    connectElements($("#svg1"), $("#path"+link.path.toString().padStart(2,"0")), $("#"+link.startElt),  $("#"+link.stopElt));
+  connectElements($("#svg1"), $("#path"+link.path.toString().padStart(2,"0")), $("#"+link.startElt),  $("#"+link.stopElt));
 }
 
 function connectAll() {
@@ -85,6 +114,9 @@ function connectAll() {
 }
 
 
+
+
+//SAVING AND LOADING
 function saveGridToLocalstorage(name, serialized_grid) {
   console.log("Saving grid...");
   localStorage.setItem(name, serialized_grid);
@@ -136,6 +168,8 @@ function loadGrid(name) {
 
 
 
+
+//EVENTS HANDLING
 function handleKeyUp(event) {
   const BASE_FONT_SIZE = 8
   const MIN_FONT_SIZE = 3
@@ -207,17 +241,16 @@ $(document).ready(function(){
   $(document).keypress(function(e){
 
     if ((event.keyCode == 10 || event.keyCode == 13) && event.ctrlKey) {
-      console.log("Enter has been pressed! Connect");
+      console.log("Enter has been pressed!");
       console.log(selected);
       if (selected.size == 2) {
         console.log("There are two items in selection");
         const elements_iterator = selected.values();
         const first_element = elements_iterator.next().value;
         const second_element = elements_iterator.next().value;
-        console.log(first_element);
-        console.log(second_element);
 
-        addLink({"id": first_element, "link": second_element});
+        toggleLink({ "id": first_element, "link": second_element});
+
         connectAll();
         //$("#"+first_element).attr("link", second_element);
       }
