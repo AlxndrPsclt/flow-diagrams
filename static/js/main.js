@@ -66,31 +66,12 @@ function card_prototype(card_data) {
   return card_template;
 }
 
-function link_prototype(link_data) {
-
-  const link_template = `
-  <path
-    id="${link_data.id}"
-    d="m0 0"
-    stroke="#B0B0B0"
-    fill="none"
-    stroke-width="3px";/>
-`
-  return link_template;
-}
 
 function addLink(item) {
   console.log("Adding a new link.")
   console.log(item);
-  const pathToUse = links.add(item);
-
-  console.log(item.id);
-  console.log(item.link);
-  console.log(pathToUse);
-
-  if ( pathToUse > -1) {
-    connectElements($("#svg1"), $("#path"+pathToUse.toString().padStart(2,"0")), $("#"+item.id),  $("#"+item.link));
-  }
+  $("#"+item.id).attr("link", item.link);
+  links.add(item);
 }
 
 function connect(link) {
@@ -99,20 +80,10 @@ function connect(link) {
 }
 
 function connectAll() {
-  // connect all the paths you want!
   console.log("(re)Connecting all...");
   links.links.forEach(connect);
-  //connectElements($("#svg1"), $("#pathcard01card02"), $("#card01"),  $("#card02"));
 }
 
-function createAll() {
-  // connect all the paths you want!
-  console.log("Creating all links...");
-  var grid = gridster.serialize();
-  console.log(grid);
-  grid.forEach(createLinkSvg);
-  //connectElements($("#svg1"), $("#path2"), $("#card02"),  $("#card05"));
-}
 
 function saveGridToLocalstorage(name, serialized_grid) {
   console.log("Saving grid...");
@@ -135,7 +106,6 @@ function add_one_widget(elt) {
 
   input.addEventListener('keyup', handleKeyUp);
   input.addEventListener('blur', handleBlur);
-
 }
 
 function loadGridFromSerialized(serialized) {
@@ -146,6 +116,7 @@ function loadGridFromSerialized(serialized) {
   links.empty();
   jsonGrid.forEach(elt => add_one_widget(elt));
   jsonGrid.filter(elt =>  elt.link).forEach(elt => addLink(elt));
+  connectAll();
 }
 
 function loadGridFromLocalStorage(name) {
@@ -205,13 +176,6 @@ function handleBlur(event) {
 
 $(document).ready(function(){
 
-  console.log("Coucou");
-
-  //$( "#outer" ).click(function(e) {
-  //  console.log(e);
-  //});
-
-
   gridster = $(".gridster ul").gridster({
     widget_base_dimensions: [200, 200],
     widget_margins: [5, 5],
@@ -252,7 +216,10 @@ $(document).ready(function(){
         const second_element = elements_iterator.next().value;
         console.log(first_element);
         console.log(second_element);
-        $("#"+first_element).attr("link", second_element);
+
+        addLink({"id": first_element, "link": second_element});
+        connectAll();
+        //$("#"+first_element).attr("link", second_element);
       }
     }
 
@@ -340,3 +307,21 @@ $(document).ready(function(){
 //TODO" Add decent font resize on task-card resize
 //TODO" Add decent font resize on window resize or zoom level change
 //TODO" Clean code
+//
+//
+//
+//SAVED
+//
+
+//function link_prototype(link_data) {
+//
+//  const link_template = `
+//  <path
+//    id="${link_data.id}"
+//    d="m0 0"
+//    stroke="#B0B0B0"
+//    fill="none"
+//    stroke-width="3px";/>
+//`
+//  return link_template;
+//}
