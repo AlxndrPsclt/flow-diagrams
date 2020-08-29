@@ -104,8 +104,10 @@ function toggleLink(link) {
 }
 
 function connect(link) {
-  console.log("Connecting some link " + link.linkId);
-  connectElements($("#svg1"), $("#path"+link.path.toString().padStart(2,"0")), $("#"+link.startElt),  $("#"+link.stopElt));
+  if (link) {
+    console.log("Connecting some link " + link.linkId);
+    connectElements($("#svg1"), $("#path"+link.path.toString().padStart(2,"0")), $("#"+link.startElt),  $("#"+link.stopElt));
+  }
 }
 
 function connectAll() {
@@ -286,6 +288,7 @@ $(document).ready(function(){
             element.addClass("selected");
           }
           console.log("Ctrl-clicked inside!");
+          console.log(selected);
           return;
         }
         // Go up the DOM
