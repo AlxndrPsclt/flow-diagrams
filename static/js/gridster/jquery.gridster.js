@@ -962,7 +962,10 @@
         var content = $w[0].children[1].firstElementChild.value;
         console.log(content);
         var link = $w[0].getAttribute("link") || "";
-        console.log(link);
+        var element_links = links.links.filter(elt => elt.startElt == $w.attr("id")).map(elt => elt.stopElt);
+        console.log("Element links...");
+        console.log($w.attr("id"));
+        console.log(element_links);
         return {
           col: wgd.col,
           row: wgd.row,
@@ -971,7 +974,7 @@
           id: $w.attr("id"),
           title: title,
           content: content,
-          link: link
+          link: element_links,
         };
       },
       collision: {
