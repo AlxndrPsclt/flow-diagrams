@@ -77,9 +77,10 @@ function card_prototype(card_data) {
 function addLink(link) {
   console.log("Adding a new link.")
   console.log(link);
-  Object.assign(link, { "linkId": link.id+"-"+link.link});
-  $("#"+link.id).attr("link", link.link);
-  links.add(link);
+  link.link.forEach( lnk => {
+    const newLink = { "linkId": link.id+"-"+lnk, "id": link.id, "link": lnk };
+    links.add(newLink);
+  })
 }
 
 function deleteLink(item, linkId) {
