@@ -20,13 +20,20 @@ class linksCollection {
   }
 
   del(linkIndex) {
-      this.links[linkIndex] = null;
-      this.firstFreeIndex = Math.min(this.firstFreeIndex, linkIndex);
+    var pathToReset = $('#path'+this.links[linkIndex].path.toString().padStart(2,"0"));
+    pathToReset.attr("d", "m0 0");
+    this.links[linkIndex].linkId= null;
+    this.firstFreeIndex = Math.min(this.firstFreeIndex, linkIndex);
     return linkIndex;
   }
 
   toggle(link) {
-    const linkIndex = this.links.findIndex(elt => elt.linkId == link.linkId);
+    var linkIndex = -1;
+    console.log("Inside toggle linkss");
+    console.log(link);
+    if (link) {
+      linkIndex = this.links.findIndex(elt => elt.linkId == link.linkId);
+    }
 
     if ( linkIndex > -1) {
       console.log("There is already a link for this pair; will delete it");
@@ -87,8 +94,6 @@ function deleteLink(item, linkId) {
   console.log("Deleting a link.")
   console.log(linkId);
 
-  $("#"+item.id).attr("link", "");
-
   links.del(item);
 }
 
@@ -97,11 +102,6 @@ function toggleLink(link) {
   console.log(link);
   link["linkId"] = link.id+"-"+link.link;
   const addedNewLink = links.toggle(link);
-  if (addedNewLink) {
-    $("#"+link.id).attr("link", link.link);
-  } else {
-    $("#"+link.id).attr("link", "");
-  }
 }
 
 function connect(link) {
@@ -113,7 +113,7 @@ function connect(link) {
 
 function connectAll() {
   console.log("(re)Connecting all...");
-  links.links.forEach(connect);
+  links.links.filter(elt =>  elt.linkId).forEach(connect);
 }
 
 
@@ -305,8 +305,8 @@ $(document).ready(function(){
       console.log(col);
       console.log(e.pageY);
       console.log(row);
-      last_element_name= gridster.$widgets[gridster.$widgets.length-1].id;
-      last_element_id_str=  last_element_name.substring(last_element_name.length - 2, last_element_name.length);
+      last_element_name = gridster.$widgets[gridster.$widgets.length-1].id;
+      last_element_id_str = last_element_name.substring(last_element_name.length - 2, last_element_name.length);
       new_element_id_int = parseInt(last_element_id_str) + 1;
       new_element_id_str=new_element_id_int.toString().padStart(2,"0");
 
@@ -341,9 +341,9 @@ $(document).ready(function(){
 
 
 //TODO: Add yaml save support
-//TODO" Add decent font resize on task-card resize
-//TODO" Add decent font resize on window resize or zoom level change
-//TODO" Clean code
+//TODO: Add decent font resize on task-card resize
+//TODO: Add decent font resize on window resize or zoom level change
+//TODO: Clean code
 //
 //
 //
